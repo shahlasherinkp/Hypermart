@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hypermart/mainpage/components/pdeals.dart';
 
 import 'components/category.dart';
 import 'components/form.dart';
+import 'components/popular.dart';
 
 class FirstScreen extends StatefulWidget {
   FirstScreen({super.key});
@@ -251,22 +253,336 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                   ),
                 ),
-                     SizedBox(height: 20,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Popular Deals',style:
-                              TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
-                              Image.asset('assets/images/Right Arrow 4.png'),
-                            ],
-                          ),
-                          SizedBox(height: 20,),
-                          Container(
-                            height: 265,
-                            width: 150,
-                            
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Popular Deals',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                    ),
+                    Image.asset('assets/images/Right Arrow 4.png'),
+                  ],
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+        
+        height: 300,
+        width: 150,
+        decoration: BoxDecoration(                                                                                                     
+          
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+        
+          children: [
+            Image.asset('assets/images/Mask group (2).png'),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+               
+                children: [
+                  Text('Strawberries', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
+              SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('₹ 10'
+                      ,
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                    Image.asset('assets/images/Group 47392.png')
+                  ],
+                ),
+                SizedBox(height: 10,),
+                  SizedBox(
+                  height: 36,
+                  width: 130,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          side: MaterialStateProperty.all(
+                              BorderSide(color: Color(0xffFDAA5D))),
+                          // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
+                          backgroundColor: MaterialStateProperty.all(Colors.white),
+                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                              borderRadius: BorderRadiusDirectional.circular(12)))),
+                      onPressed: () {},
+                      child: Text(
+                        'Add to cart',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xffFDAA5D)),
+                      )),
+                ),
+                ],
+                    ),
+            ),
+        
+          ],
+        ),
+      ),
+      Container(
+        
+        height: 300,
+        width: 150,
+        decoration: BoxDecoration(                                                                                                     
+          
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+        
+          children: [
+            SizedBox(height: 45,),
+            Image.asset('assets/images/Vector (3).png'),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+               
+                children: [
+                  Text('Fried Chips', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
+              SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('₹ 12'
+                      ,
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                    Image.asset('assets/images/Group 47392.png')
+                  ],
+                ),
+                SizedBox(height: 10,),
+                  SizedBox(
+                  height: 36,
+                  width: 130,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          side: MaterialStateProperty.all(
+                              BorderSide(color: Color(0xffFDAA5D))),
+                          // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
+                          backgroundColor: MaterialStateProperty.all(Colors.white),
+                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                              borderRadius: BorderRadiusDirectional.circular(12)))),
+                      onPressed: () {},
+                      child: Text(
+                        'Add to cart',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xffFDAA5D)),
+                      )),
+                ),
+                ],
+                    ),
+            ),
+        
+          ],
+        ),
+      ),
+                  ],
+                ),
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                      Container(
+        
+        height: 300,
+        width: 150,
+        decoration: BoxDecoration(                                                                                                     
+          
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+        
+          children: [
+            Image.asset('assets/images/Mask group (3).png'),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+               
+                children: [
+                  Text('Moder Chair', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
+              SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('₹ 3599'
+                      ,
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                    Image.asset('assets/images/Group 47392.png')
+                  ],
+                ),
+                SizedBox(height: 10,),
+                  SizedBox(
+                  height: 36,
+                  width: 130,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          side: MaterialStateProperty.all(
+                              BorderSide(color: Color(0xffFDAA5D))),
+                          // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
+                          backgroundColor: MaterialStateProperty.all(Colors.white),
+                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                              borderRadius: BorderRadiusDirectional.circular(12)))),
+                      onPressed: () {},
+                      child: Text(
+                        'Add to cart',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xffFDAA5D)),
+                      )),
+                ),
+                ],
+                    ),
+            ),
+        
+          ],
+        ),
+      ),
+      Container(
+        
+        height: 300,
+        width: 150,
+        decoration: BoxDecoration(                                                                                                     
+          
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+        
+          children: [
+            SizedBox(height: 45,),
+            Image.asset('assets/images/7113741900_wfl6512vtss_mdm_low_1 1.png'),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+               
+                children: [
+                  Text('LG washing machine', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
+              SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('₹ 45998'
+                      ,
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                    Image.asset('assets/images/Group 47392.png')
+                  ],
+                ),
+                SizedBox(height: 10,),
+                  SizedBox(
+                  height: 36,
+                  width: 130,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          side: MaterialStateProperty.all(
+                              BorderSide(color: Color(0xffFDAA5D))),
+                          // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
+                          backgroundColor: MaterialStateProperty.all(Colors.white),
+                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                              borderRadius: BorderRadiusDirectional.circular(12)))),
+                      onPressed: () {},
+                      child: Text(
+                        'Add to cart',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xffFDAA5D)),
+                      )),
+                ),
+                ],
+                    ),
+            ),
+        
+          ],
+        ),
+      ),
+                  ],
+                ),
 
-                          )
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // SizedBox(
+                //   height: 500,
+                //   child: GridView.builder(
+                //       itemCount: popularlist.length,
+                //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //           crossAxisCount: 2),
+                //       itemBuilder: (context, i) {
+                //         return Screen(
+                //             mainimage: popularlist[i]['mainimage'],
+                //             mtext: popularlist[i]['mtext'],
+                //             price: popularlist[i]['price']);
+                //       }),
+                // ),
+
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Top Brands',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                    ),
+                    Image.asset('assets/images/Right Arrow 4.png'),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 47,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: imagelist.length,
+                      itemBuilder: (context, i) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Image.asset(
+                            imagelist[i],
+                          ),
+                        );
+                      }),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Exclusive Beauty Deals',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                    ),
+                    Image.asset('assets/images/Right Arrow 4.png'),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Wrap(
+                  spacing: 30,
+                  children: [
+                    Image.asset('assets/images/Group 47391 (1).png'),
+                    Image.asset('assets/images/Group 47394.png'),
+                    Image.asset('assets/images/Group 47395.png'),
+                    Image.asset('assets/images/Group 47391 (1).png'),
+                    Image.asset('assets/images/Group 47393.png'),
+                    Image.asset('assets/images/Group 47393.png')
+                  ],
+                )
               ],
             ),
           ),
@@ -317,4 +633,33 @@ final List categorylist = [
     'image': 'assets/images/Vector (1).png',
     'ctext': 'Groceries',
   }
+];
+
+final List popularlist = [
+  {
+    'mainimage': 'assets/images/Mask group (2).png',
+    'mtext': 'Strawberries',
+    'price': '₹ 10'
+  },
+  {
+    'mainimage': 'assets/images/Mask group (3).png',
+    'mtext': 'Freid chips',
+    'price': '₹ 12'
+  },
+  {
+    'mainimage': 'assets/images/Mask group (3).png',
+    'mtext': 'Moder Chair',
+    'price': '₹ 3599'
+  },
+  {
+    'mainimage': 'assets/images/Mask group (2).png',
+    'mtext': 'LG washing machine',
+    'price': '₹ 49000'
+  },
+];
+final List imagelist = [
+  'assets/images/image 2.png',
+  'assets/images/image 3.png',
+  'assets/images/image 4 (1).png',
+  'assets/images/image 2.png'
 ];
