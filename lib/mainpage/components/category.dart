@@ -31,6 +31,7 @@ class Categories extends StatelessWidget {
                  Text(ctext, style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
+                  color: Colors.white
                   
                 ),)
               ],

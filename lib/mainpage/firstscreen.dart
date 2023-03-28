@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hypermart/mainpage/components/pdeals.dart';
+import 'package:hypermart/model/product_model.dart';
+import 'package:hypermart/sevice/product_service.dart';
 
 import 'components/category.dart';
 import 'components/form.dart';
-import 'components/popular.dart';
 
 class FirstScreen extends StatefulWidget {
-  FirstScreen({super.key});
+  const FirstScreen({super.key});
 
   @override
   State<FirstScreen> createState() => _FirstScreenState();
@@ -14,12 +14,24 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
   String? dropdownvalue = 'English';
-
+  final List<ProductModel> _productList = [];
   var items = [
     'English',
     'Malayalam',
     'Arabic',
   ];
+  @override
+  void initState() {
+    super.initState();
+    ProductService().getProduct().then((value) {
+      if (mounted) {
+        setState(() {
+          _productList.addAll(value);
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,7 +43,7 @@ class _FirstScreenState extends State<FirstScreen> {
               children: [
                 Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
@@ -122,22 +134,22 @@ class _FirstScreenState extends State<FirstScreen> {
                         padding: const EdgeInsets.only(
                             bottom: 20, top: 65, right: 220),
                         child: Column(
-                          children: [
-                            const Text(
+                          children: const [
+                            Text(
                               'Happy Weekend',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.black),
                             ),
-                            const Text(
+                            Text(
                               '25% OFF',
                               style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w800,
                                   color: Colors.black),
                             ),
-                            const Text(
+                            Text(
                               'For All Menus',
                               style: TextStyle(
                                   fontSize: 10,
@@ -162,7 +174,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         Image.asset('assets/images/Right Arrow 4.png'),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   ],
@@ -179,11 +191,11 @@ class _FirstScreenState extends State<FirstScreen> {
                             ctext: categorylist[i]['ctext']);
                       }),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
-                  children: [
+                  children: const [
                     Text(
                       'Previous Order',
                       style:
@@ -191,7 +203,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Card(
@@ -199,7 +211,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   child: Container(
-                    height: 175,
+                    height: 195,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
@@ -209,27 +221,27 @@ class _FirstScreenState extends State<FirstScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Delivered',
                             style: TextStyle(
                                 color: Color(0xff14AB87),
                                 fontSize: 10,
                                 fontWeight: FontWeight.w700),
                           ),
-                          Text('On Wed, 27 Jul 2022'),
-                          SizedBox(
+                          const Text('On Wed, 27 Jul 2022'),
+                          const SizedBox(
                             height: 8,
                           ),
                           Image.asset('assets/images/Group 47391.png'),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
-                          Text('Order ID : #28292999'),
+                          const Text('Order ID : #28292999'),
                           // SizedBox(height: 10,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 'Final Total : ₹ 123',
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w700),
@@ -243,9 +255,9 @@ class _FirstScreenState extends State<FirstScreen> {
                                       ),
                                       backgroundColor:
                                           MaterialStateProperty.all(
-                                              Color(0xff4AB7B6))),
+                                              const Color(0xff4AB7B6))),
                                   onPressed: () {},
-                                  child: Text('Order Again'))
+                                  child: const Text('Order Again'))
                             ],
                           ),
                         ],
@@ -253,13 +265,13 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Popular Deals',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
@@ -267,245 +279,311 @@ class _FirstScreenState extends State<FirstScreen> {
                     Image.asset('assets/images/Right Arrow 4.png'),
                   ],
                 ),
+
+                ..._productList
+                    .map(
+                      (product) => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 300,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: [
+                                if (product.image != null)
+                                  Image.network(product.image ?? "")
+                                else
+                                  Image.asset('assets/images/Vector (3).png'),
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                    children: [
+                                      Text(product.pname ?? '',
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400)),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                           Text(
+                                            'AED ${product.price??0}',
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          Image.asset(
+                                              'assets/images/Group 47392.png')
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      SizedBox(
+                                        height: 36,
+                                        width: 130,
+                                        child: ElevatedButton(
+                                            style: ButtonStyle(
+                                                side: MaterialStateProperty.all(
+                                                    const BorderSide(
+                                                        color:
+                                                            Color(0xffFDAA5D))),
+                                                // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.white),
+                                                shape: MaterialStateProperty
+                                                    .all(RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadiusDirectional
+                                                                .circular(
+                                                                    12)))),
+                                            onPressed: () {},
+                                            child: const Text(
+                                              'Add to cart',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xffFDAA5D)),
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 300,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 45,
+                                ),
+                                Image.asset('assets/images/Vector (3).png'),
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                    children: [
+                                      const Text('Fried Chips',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400)),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text(
+                                            '₹ 12',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          Image.asset(
+                                              'assets/images/Group 47392.png')
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      SizedBox(
+                                        height: 36,
+                                        width: 130,
+                                        child: ElevatedButton(
+                                            style: ButtonStyle(
+                                                side: MaterialStateProperty.all(
+                                                    const BorderSide(
+                                                        color:
+                                                            Color(0xffFDAA5D))),
+                                                // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.white),
+                                                shape: MaterialStateProperty
+                                                    .all(RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadiusDirectional
+                                                                .circular(
+                                                                    12)))),
+                                            onPressed: () {},
+                                            child: const Text(
+                                              'Add to cart',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xffFDAA5D)),
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                    .toList(),
+
+                const SizedBox(
+                  height: 20,
+                ),
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-        
-        height: 300,
-        width: 150,
-        decoration: BoxDecoration(                                                                                                     
-          
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-        
-          children: [
-            Image.asset('assets/images/Mask group (2).png'),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-               
-                children: [
-                  Text('Strawberries', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-              SizedBox(height: 20,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('₹ 10'
-                      ,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                      height: 300,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        children: [
+                          Image.asset('assets/images/Mask group (3).png'),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              children: [
+                                const Text('Moder Chair',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400)),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      '₹ 3599',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Image.asset('assets/images/Group 47392.png')
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 36,
+                                  width: 130,
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          side: MaterialStateProperty.all(
+                                              const BorderSide(
+                                                  color: Color(0xffFDAA5D))),
+                                          // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.white),
+                                          shape: MaterialStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadiusDirectional
+                                                          .circular(12)))),
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'Add to cart',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xffFDAA5D)),
+                                      )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Image.asset('assets/images/Group 47392.png')
-                  ],
-                ),
-                SizedBox(height: 10,),
-                  SizedBox(
-                  height: 36,
-                  width: 130,
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                          side: MaterialStateProperty.all(
-                              BorderSide(color: Color(0xffFDAA5D))),
-                          // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
-                          backgroundColor: MaterialStateProperty.all(Colors.white),
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.circular(12)))),
-                      onPressed: () {},
-                      child: Text(
-                        'Add to cart',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffFDAA5D)),
-                      )),
-                ),
-                ],
+                    Container(
+                      height: 300,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 45,
+                          ),
+                          Image.asset(
+                              'assets/images/7113741900_wfl6512vtss_mdm_low_1 1.png'),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              children: [
+                                const Text('LG washing machine',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400)),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      '₹ 45998',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Image.asset('assets/images/Group 47392.png')
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 36,
+                                  width: 130,
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          side: MaterialStateProperty.all(
+                                              const BorderSide(
+                                                  color: Color(0xffFDAA5D))),
+                                          // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.white),
+                                          shape: MaterialStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadiusDirectional
+                                                          .circular(12)))),
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'Add to cart',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xffFDAA5D)),
+                                      )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-            ),
-        
-          ],
-        ),
-      ),
-      Container(
-        
-        height: 300,
-        width: 150,
-        decoration: BoxDecoration(                                                                                                     
-          
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-        
-          children: [
-            SizedBox(height: 45,),
-            Image.asset('assets/images/Vector (3).png'),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-               
-                children: [
-                  Text('Fried Chips', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-              SizedBox(height: 20,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('₹ 12'
-                      ,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Image.asset('assets/images/Group 47392.png')
-                  ],
-                ),
-                SizedBox(height: 10,),
-                  SizedBox(
-                  height: 36,
-                  width: 130,
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                          side: MaterialStateProperty.all(
-                              BorderSide(color: Color(0xffFDAA5D))),
-                          // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
-                          backgroundColor: MaterialStateProperty.all(Colors.white),
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.circular(12)))),
-                      onPressed: () {},
-                      child: Text(
-                        'Add to cart',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffFDAA5D)),
-                      )),
-                ),
-                ],
-                    ),
-            ),
-        
-          ],
-        ),
-      ),
-                  ],
-                ),
-                SizedBox(height: 20,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                      Container(
-        
-        height: 300,
-        width: 150,
-        decoration: BoxDecoration(                                                                                                     
-          
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-        
-          children: [
-            Image.asset('assets/images/Mask group (3).png'),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-               
-                children: [
-                  Text('Moder Chair', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-              SizedBox(height: 20,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('₹ 3599'
-                      ,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Image.asset('assets/images/Group 47392.png')
-                  ],
-                ),
-                SizedBox(height: 10,),
-                  SizedBox(
-                  height: 36,
-                  width: 130,
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                          side: MaterialStateProperty.all(
-                              BorderSide(color: Color(0xffFDAA5D))),
-                          // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
-                          backgroundColor: MaterialStateProperty.all(Colors.white),
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.circular(12)))),
-                      onPressed: () {},
-                      child: Text(
-                        'Add to cart',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffFDAA5D)),
-                      )),
-                ),
-                ],
-                    ),
-            ),
-        
-          ],
-        ),
-      ),
-      Container(
-        
-        height: 300,
-        width: 150,
-        decoration: BoxDecoration(                                                                                                     
-          
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-        
-          children: [
-            SizedBox(height: 45,),
-            Image.asset('assets/images/7113741900_wfl6512vtss_mdm_low_1 1.png'),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-               
-                children: [
-                  Text('LG washing machine', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-              SizedBox(height: 20,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('₹ 45998'
-                      ,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Image.asset('assets/images/Group 47392.png')
-                  ],
-                ),
-                SizedBox(height: 10,),
-                  SizedBox(
-                  height: 36,
-                  width: 130,
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                          side: MaterialStateProperty.all(
-                              BorderSide(color: Color(0xffFDAA5D))),
-                          // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
-                          backgroundColor: MaterialStateProperty.all(Colors.white),
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.circular(12)))),
-                      onPressed: () {},
-                      child: Text(
-                        'Add to cart',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffFDAA5D)),
-                      )),
-                ),
-                ],
-                    ),
-            ),
-        
-          ],
-        ),
-      ),
                   ],
                 ),
 
@@ -526,11 +604,10 @@ class _FirstScreenState extends State<FirstScreen> {
                 //       }),
                 // ),
 
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Top Brands',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
@@ -538,7 +615,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     Image.asset('assets/images/Right Arrow 4.png'),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 SizedBox(
@@ -555,13 +632,13 @@ class _FirstScreenState extends State<FirstScreen> {
                         );
                       }),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Exclusive Beauty Deals',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
@@ -569,7 +646,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     Image.asset('assets/images/Right Arrow 4.png'),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Wrap(
@@ -587,6 +664,13 @@ class _FirstScreenState extends State<FirstScreen> {
             ),
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            backgroundColor: Colors.white,
+            child: Image.asset(
+              'assets/images/Group 47389 (1).png',
+            )),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: SizedBox(
           height: 100,
           child: BottomNavigationBar(
@@ -614,22 +698,22 @@ class _FirstScreenState extends State<FirstScreen> {
 
 final List categorylist = [
   {
-    'backgroundcolor': Color(0xff4AB7B6),
+    'backgroundcolor': const Color(0xff4AB7B6),
     'image': 'assets/images/Vector (1).png',
     'ctext': 'Groceries',
   },
   {
-    'backgroundcolor': Color(0xff4B9DCB),
+    'backgroundcolor': const Color(0xff4B9DCB),
     'image': 'assets/images/washing-machine 1.png',
     'ctext': 'Appliances',
   },
   {
-    'backgroundcolor': Color(0xffAF558B),
+    'backgroundcolor': const Color(0xffAF558B),
     'image': 'assets/images/Vector (2).png',
     'ctext': 'Fashion',
   },
   {
-    'backgroundcolor': Color(0xff4AB7B6),
+    'backgroundcolor': const Color(0xff4AB7B6),
     'image': 'assets/images/Vector (1).png',
     'ctext': 'Groceries',
   }

@@ -4,6 +4,7 @@ import 'package:hypermart/mainpage/firstscreen.dart';
 import 'package:hypermart/mainpage/homescreen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         
      
       ),
-      home: FirstScreen(),
+      home: const FirstScreen(),
     );
   }
 }
