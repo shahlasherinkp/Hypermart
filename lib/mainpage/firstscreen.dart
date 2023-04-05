@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hypermart/model/product_model.dart';
 import 'package:hypermart/sevice/product_service.dart';
 
+import '../model/category_model.dart';
+import '../sevice/category_service.dart';
 import 'components/category.dart';
 import 'components/form.dart';
 
@@ -15,6 +17,9 @@ class FirstScreen extends StatefulWidget {
 class _FirstScreenState extends State<FirstScreen> {
   String? dropdownvalue = 'English';
   final List<ProductModel> _productList = [];
+  final List< CategoryModel> categiryList = [];
+
+
   var items = [
     'English',
     'Malayalam',
@@ -25,12 +30,28 @@ class _FirstScreenState extends State<FirstScreen> {
     super.initState();
     ProductService().getProduct().then((value) {
       if (mounted) {
-        setState(() {
-          _productList.addAll(value);
-        });
+        _productList.addAll(value);
+      }
+    });
+    CategoryService().getCategory().then((value) {
+      if (mounted) {
+        categiryList.addAll(value);
+        
       }
     });
   }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Product().getProduct().then((value){
+  //     if (mounted){
+  //       setState(() {
+  //         _productList.addAll(value);
+  //       });
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -181,11 +202,13 @@ class _FirstScreenState extends State<FirstScreen> {
                 ),
                 SizedBox(
                   height: 100,
-                  child: ListView.builder(
+                  child:
+                   ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: categorylist.length,
                       itemBuilder: (context, i) {
-                        return Categories(
+                        return 
+                        Categories(
                             backgroundcolor: categorylist[i]['backgroundcolor'],
                             image: categorylist[i]['image'],
                             ctext: categorylist[i]['ctext']);
@@ -279,164 +302,169 @@ class _FirstScreenState extends State<FirstScreen> {
                     Image.asset('assets/images/Right Arrow 4.png'),
                   ],
                 ),
-
-                ..._productList
-                    .map(
-                      (product) => Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            height: 300,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              children: [
-                                if (product.image != null)
-                                  Image.network(product.image ?? "")
-                                else
-                                  Image.asset('assets/images/Vector (3).png'),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
+                ..._productList.map((product) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        height: 300,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          children: [
+                            if (product.image != null)
+                              Image.network(
+                                product.image ?? "",
+                                loadingBuilder:
+                                    (context, child, loadingProgress) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Image.network(
+                                        'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'),
+                              )
+                            else
+                              Image.asset('assets/images/Vector (3).png'),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    product.pname ?? '',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(product.pname ?? '',
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400)),
-                                      const SizedBox(
-                                        height: 20,
+                                      const Text(
+                                        'AED ${0}',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                           Text(
-                                            'AED ${product.price??0}',
-                                            style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          Image.asset(
-                                              'assets/images/Group 47392.png')
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      SizedBox(
-                                        height: 36,
-                                        width: 130,
-                                        child: ElevatedButton(
-                                            style: ButtonStyle(
-                                                side: MaterialStateProperty.all(
-                                                    const BorderSide(
-                                                        color:
-                                                            Color(0xffFDAA5D))),
-                                                // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.white),
-                                                shape: MaterialStateProperty
-                                                    .all(RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadiusDirectional
-                                                                .circular(
-                                                                    12)))),
-                                            onPressed: () {},
-                                            child: const Text(
-                                              'Add to cart',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0xffFDAA5D)),
-                                            )),
-                                      ),
+                                      Image.asset(
+                                          'assets/images/Group 47392.png')
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: 300,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  height: 45,
-                                ),
-                                Image.asset('assets/images/Vector (3).png'),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    children: [
-                                      const Text('Fried Chips',
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  SizedBox(
+                                    height: 36,
+                                    width: 130,
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            side: MaterialStateProperty.all(
+                                                const BorderSide(
+                                                    color: Color(0xffFDAA5D))),
+                                            // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    Colors.white),
+                                            shape: MaterialStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadiusDirectional
+                                                            .circular(12)))),
+                                        onPressed: () {},
+                                        child: const Text(
+                                          'Add to cart',
                                           style: TextStyle(
                                               fontSize: 14,
-                                              fontWeight: FontWeight.w400)),
-                                      const SizedBox(
-                                        height: 20,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xffFDAA5D)),
+                                        )),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 300,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 45,
+                            ),
+                            Image.asset('assets/images/Vector (3).png'),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                children: [
+                                  const Text('Fried Chips',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400)),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        '₹ 12',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                            '₹ 12',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          Image.asset(
-                                              'assets/images/Group 47392.png')
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      SizedBox(
-                                        height: 36,
-                                        width: 130,
-                                        child: ElevatedButton(
-                                            style: ButtonStyle(
-                                                side: MaterialStateProperty.all(
-                                                    const BorderSide(
-                                                        color:
-                                                            Color(0xffFDAA5D))),
-                                                // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.white),
-                                                shape: MaterialStateProperty
-                                                    .all(RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadiusDirectional
-                                                                .circular(
-                                                                    12)))),
-                                            onPressed: () {},
-                                            child: const Text(
-                                              'Add to cart',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0xffFDAA5D)),
-                                            )),
-                                      ),
+                                      Image.asset(
+                                          'assets/images/Group 47392.png')
                                     ],
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  SizedBox(
+                                    height: 36,
+                                    width: 130,
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            side: MaterialStateProperty.all(
+                                                const BorderSide(
+                                                    color: Color(0xffFDAA5D))),
+                                            // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    Colors.white),
+                                            shape: MaterialStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadiusDirectional
+                                                            .circular(12)))),
+                                        onPressed: () {},
+                                        child: const Text(
+                                          'Add to cart',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xffFDAA5D)),
+                                        )),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    )
-                    .toList(),
+                    ],
+                  );
+                }).toList(),
 
                 const SizedBox(
                   height: 20,

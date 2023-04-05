@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'components/category.dart';
 
 class ScreenHome extends StatelessWidget {
-  ScreenHome({super.key});
+  const ScreenHome({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ScreenHome extends StatelessWidget {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
             child: Column(
               children: [
                 Container(
@@ -35,7 +35,7 @@ class ScreenHome extends StatelessWidget {
                       BoxDecoration(borderRadius: BorderRadius.circular(12)),
                   child: TextFormField(
                     decoration: InputDecoration(
-                        fillColor: Color(0xC5C5C5),
+                        fillColor: const Color(0x00c5c5c5),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
                               const BorderSide(width: 1, color: Colors.grey),
@@ -52,7 +52,7 @@ class ScreenHome extends StatelessWidget {
                         suffixIcon: Image.asset('assets/images/mic (1) 1.png')),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
@@ -60,18 +60,18 @@ class ScreenHome extends StatelessWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
+                    image: const DecorationImage(
                         image: AssetImage('assets/images/Mask.png'),
                         fit: BoxFit.cover),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Categories',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
@@ -89,7 +89,7 @@ class ScreenHome extends StatelessWidget {
                 return Categories(
                     backgroundcolor: categorylist[i]['backgroundcolor'],
                     image: categorylist[i]['image'],
-                    ctext: categorylist[i]['ctext']);
+                    ctext: categorylist[i]['ctext'], );
               })
         ],
       ),
