@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hypermart/mainpage/components/pdeals.dart';
 import 'package:hypermart/mainpage/firstscreen.dart';
-import 'package:hypermart/mainpage/homescreen.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

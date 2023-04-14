@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hypermart/model/product_model.dart';
-import 'package:hypermart/sevice/product_service.dart';
+import 'package:hypermart/sevice/user_service.dart';
 
 import '../model/category_model.dart';
 import '../sevice/category_service.dart';
+import '../sevice/product_service.dart';
 import 'components/category.dart';
 import 'components/form.dart';
 
@@ -17,8 +18,9 @@ class FirstScreen extends StatefulWidget {
 class _FirstScreenState extends State<FirstScreen> {
   String? dropdownvalue = 'English';
   final List<ProductModel> _productList = [];
-  final List< CategoryModel> categiryList = [];
-
+  final List<CategoryModel> categoryList = [];
+  dynamic _userlist;
+  bool isLoading = false;
 
   var items = [
     'English',
@@ -31,14 +33,24 @@ class _FirstScreenState extends State<FirstScreen> {
     ProductService().getProduct().then((value) {
       if (mounted) {
         _productList.addAll(value);
+       
       }
     });
     CategoryService().getCategory().then((value) {
       if (mounted) {
-        categiryList.addAll(value);
-        
+        categoryList.addAll(value);
+         print(categoryList[0].name);
       }
     });
+    getUserApi();
+  }
+
+  void getUserApi() async {
+    isLoading = true;
+    setState(() {});
+    _userlist = await UserService().getUser();
+    isLoading = false;
+    setState(() {});
   }
 
   // @override
@@ -55,6 +67,7 @@ class _FirstScreenState extends State<FirstScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print('print: ${_userlist.address}');
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -113,21 +126,35 @@ class _FirstScreenState extends State<FirstScreen> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset('assets/images/Group 7 (1).png'),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            const Text('Benglure \nBTM Layout 5006'),
-                          ],
-                        ),
-                        Image.asset('assets/images/Right Arrow 4.png')
-                      ],
-                    ),
+                    isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.network(
+                                    _userlist.image,
+                                    errorBuilder: (context, error, stack) =>
+                                        Image.asset(
+                                            'assets/images/Group 7 (1).png'),
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) =>
+                                            const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(_userlist.name ?? ''),
+                                ],
+                              ),
+                              Image.asset('assets/images/Right Arrow 4.png')
+                            ],
+                          ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -202,16 +229,14 @@ class _FirstScreenState extends State<FirstScreen> {
                 ),
                 SizedBox(
                   height: 100,
-                  child:
-                   ListView.builder(
+                  child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: categorylist.length,
                       itemBuilder: (context, i) {
-                        return 
-                        Categories(
+                        return Categories(
                             backgroundcolor: categorylist[i]['backgroundcolor'],
-                            image: categorylist[i]['image'],
-                            ctext: categorylist[i]['ctext']);
+                            image: categorylist[i].image,
+                            ctext: categorylist[i].name);
                       }),
                 ),
                 const SizedBox(
@@ -318,7 +343,8 @@ class _FirstScreenState extends State<FirstScreen> {
                               Image.network(
                                 product.image ?? "",
                                 loadingBuilder:
-                                    (context, child, loadingProgress) => const Center(
+                                    (context, child, loadingProgress) =>
+                                        const Center(
                                   child: CircularProgressIndicator(),
                                 ),
                                 errorBuilder: (context, error, stackTrace) =>

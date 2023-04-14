@@ -27,32 +27,34 @@ class Screen extends StatelessWidget {
               child: Column(
                
                 children: [
-                  Text(mtext, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-              SizedBox(height: 20,),
+                  Text(mtext, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
+              const SizedBox(height: 20,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       price,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Image.asset('assets/images/Group 47392.png')
                   ],
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                   SizedBox(
                   height: 36,
                   width: 130,
                   child: ElevatedButton(
                       style: ButtonStyle(
                           side: MaterialStateProperty.all(
-                              BorderSide(color: Color(0xffFDAA5D))),
+                              const BorderSide(color: Color(0xffFDAA5D))),
                           // iconColor: MaterialStateProperty.all(Color(0xffFDAA5D)),
                           backgroundColor: MaterialStateProperty.all(Colors.white),
                           shape: MaterialStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadiusDirectional.circular(12)))),
-                      onPressed: () {},
-                      child: Text(
+                      onPressed: () {
+                        
+                      },
+                      child: const Text(
                         'Add to cart',
                         style: TextStyle(
                             fontSize: 14,
